@@ -62,8 +62,8 @@ class TaskStatusField(BaseField):
             raise InvalidStatusError("Task must be a str")
         
         normalized=value.strip().lower()
-        if self.normalized not in self.Allowed:
-            raise InvalidStatusError(f"Invalid task status")
+        if normalized not in self.Allowed:
+            raise InvalidStatusError(f"Invalid task status: {value!r}")
         
     def normalize(self,value:str)->str:
         return value.strip().lower()

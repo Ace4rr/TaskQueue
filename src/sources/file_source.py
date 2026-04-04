@@ -38,7 +38,7 @@ class FileTaskSource:
     def _iter_from_raw(raw)->Iterator[Task]:
         if not isinstance(raw,list):
             logger.error("File must contain json array")
-            return iter
+            return iter([])
         
         def gen():
             for idx, item in enumerate(raw):
