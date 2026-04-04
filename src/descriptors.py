@@ -73,7 +73,7 @@ class TaskCreatedAtField(BaseField):
         if not isinstance(value,datetime):
             raise InvalidCreatedAtError("Task creation date must be datetime")
         
-class ShortSummaryDescriptior:
+class ShortSummaryDescriptor:
     """Non data descriptor """
     def __get__(self,obj:Any,objtype:type|None=None)->str:
         if obj is None:

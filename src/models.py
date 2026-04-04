@@ -1,30 +1,37 @@
-from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
+from .descriptors import (
+    ShortSummaryDescriptor,
+    TaskCreatedAtField,
+    TaskDescriptionField,
+    TaskIdField,
+    TaskPriorityField,
+    TaskStatusField,
+)
 
-@dataclass(frozen=True)
+
 class Task:
-    """
-    Base task model
-    """
-    id:str
-    description:str 
-    priority:str 
-    status:str 
-    created_at:datetime 
+    """Base task model 2"""
 
-    def __validation__(self):
-        if not self.id:
-            raise ValueError("Task must be not empty")
-        if not isinstance(self.priority,int):
-            raise ValueError("Task prior must be not negative int")
-        if not isinstance(self.created_at,datetime):
-            raise ValueError("Task created_at must be datetime")
-        
+    id=TaskIdField()
+    description=TaskDescriptionField()
+    priority = TaskPriorityField()
+    status = TaskStatusField()
+    created_at = TaskCreatedAtField()
+    short_summary=ShortSummaryDescriptor()
+    __slots__=("_id","_description","_priority","_status","_created_at")
+
+    def __init__(
+            self,id:str,description:str,priority:int,status:int,created_at:datetime)->None:
+        self.id=id 
+        self.description=description
+        self.priority=priority
+        self.status=status
+        self.created_at=created_at
+
     @property
     def is_ready(self)->bool:
-        """
-        Is task ready for being completed check
-        """
-        return self.status.lower() in ("ready","todo","pending") and self.priority>0
+        """Property"""
+        return self.status in {"ready", "todo", "pending"} and (self.priority>0)
     
+    def __repr__(self)->str:
+        return(f"Task(id={self.id!r}, description={self.description!r}, "f"priority={self.priority!r}, status={self.status!r}, "f"created_at={self.created_at!r})")
